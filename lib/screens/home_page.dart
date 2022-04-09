@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todo_app/screens/task_page.dart';
 import 'package:todo_app/widgets/task_card_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final bool isDataEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(
-                  vertical:10.0,
+                  vertical: 10.0,
                 ),
                 child: const Text(
                   "Todo",
@@ -68,7 +71,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TaskPage(),
+            ),
+          );
+        },
         child: const Icon(
           Icons.add,
         ),
