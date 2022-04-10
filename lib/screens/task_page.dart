@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/database/database_helper.dart';
 import 'package:todo_app/widgets/todo_card_widget.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key}) : super(key: key);
+  const TaskPage({Key? key, task}) : super(key: key);
 
   @override
   State<TaskPage> createState() => _TaskPageState();
 }
 
 class _TaskPageState extends State<TaskPage> {
+
+  // DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  String? _taskTitle;
+  String? _taskDescription;
+  String? _todoTitle;
+
+  TextEditingController taskTitle = TextEditingController();
+  TextEditingController taskDescription = TextEditingController();
+  TextEditingController todoTitle = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,14 +42,20 @@ class _TaskPageState extends State<TaskPage> {
                 left: 15.0,
               ),
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: taskTitle,
+                      decoration: const InputDecoration(
                         hintText: "Enter task title",
                         border: InputBorder.none,
                       ),
-                      style: TextStyle(
+                      onChanged: (value) {
+                        setState(() {
+                          _taskTitle = value;
+                        });
+                      },
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -45,51 +63,35 @@ class _TaskPageState extends State<TaskPage> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 bottom: 12.0,
               ),
               child: TextField(
-                decoration: InputDecoration(
+                controller: taskDescription,
+                decoration: const InputDecoration(
                   hintText: "Enter description here....",
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 24.0,
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _taskDescription = value;
+                  });
+                },
               ),
             ),
             Expanded(
               child: ListView(
-                children: [
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
-                  const TodoCardWidget(),
+                children: const [
+                  TodoCardWidget(),
+                  TodoCardWidget(),
+                  TodoCardWidget(),
+                  TodoCardWidget(),
+                  TodoCardWidget(),
+                  TodoCardWidget(),
                 ],
               ),
             ),
@@ -101,13 +103,19 @@ class _TaskPageState extends State<TaskPage> {
                 left: 12.0,
               ),
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: todoTitle,
+                      decoration: const InputDecoration(
                         hintText: "Enter todo here....",
                         border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _todoTitle = value;
+                        });
+                      },
                     ),
                   )
                 ],

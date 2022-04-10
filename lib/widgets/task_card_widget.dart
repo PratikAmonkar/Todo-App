@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  final String? title;
-  final String? description;
+  final String title;
+  final String description;
 
   const TaskCardWidget({
     Key? key,
-    this.title,
-    this.description,
+    required this.title,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class TaskCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title ?? "(Unnamed Task)",
+            title,
             style: const TextStyle(
               color: Color(0xFF211551),
               fontSize: 22.0,
@@ -41,7 +41,7 @@ class TaskCardWidget extends StatelessWidget {
               top: 10.0,
             ),
             child: Text(
-              description ?? "No Description Added",
+              description == "null" ? "No description added" : description,
               style: const TextStyle(
                 fontSize: 16.0,
                 color: Color(0xFF86829D),
