@@ -36,14 +36,14 @@ class TodoDatabase {
     );
   }
 
-  Future<void> insertTask(Task task) async {
+  Future<int> insertTask(Task task) async {
     final db = await instance.database;
-    await db.insert(
+    final id = await db.insert(
       'tasks',
       task.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    // return task.
+    return id;
   }
 
   Future<List<Task>> getTasks() async {
@@ -57,15 +57,46 @@ class TodoDatabase {
         return Task(
           id: taskMap[index]['id'],
           title: taskMap[index]['title'],
-          description: taskMap[index]['description'],
         );
       },
     );
   }
 
+  Future<void> insertTodos(Todo todo) async {
+    final db = await instance.database;
+    await db.insert(
+      'todo',
+      todo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<Todo>> getTodos(int taskId) async {
+    final db = await instance.database;
+    List<Map<String, dynamic>> todoMap =
+        await db.rawQuery("SELECT * FROM todo WHERE taskId = $taskId");
+    return List.generate(
+      todoMap.length,
+      (index) {
+        return Todo(
+          id: todoMap[index]['id'],
+          title: todoMap[index]['title'],
+          taskId: todoMap[index]['taskId'],
+          isDone: todoMap[index]['isDone'],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteTodo(int id) async {
+    final db = await instance.database;
+    await db.rawDelete(
+      "DELETE FROM todo WHERE taskId = '$id'",
+    );
+  }
+
   Future close() async {
     final db = await instance.database;
-
     db.close();
   }
 }
