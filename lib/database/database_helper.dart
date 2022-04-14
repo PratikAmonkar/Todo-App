@@ -46,6 +46,13 @@ class TodoDatabase {
     return id;
   }
 
+  Future<void> updateTaskTitle(int id, String title) async {
+    final db = await instance.database;
+    await db.rawUpdate(
+      "UPDATE tasks SET title = '$title' WHERE id = '$id'",
+    );
+  }
+
   Future<List<Task>> getTasks() async {
     final db = await instance.database;
     List<Map<String, dynamic>> taskMap = await db.query(
@@ -57,6 +64,35 @@ class TodoDatabase {
         return Task(
           id: taskMap[index]['id'],
           title: taskMap[index]['title'],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteTask(int id) async {
+    // Database _db = await database();
+    final db = await instance.database;
+
+    await db.rawDelete(
+      "DELETE FROM tasks WHERE id = '$id'",
+    );
+    await db.rawDelete(
+      "DELETE FROM todo WHERE taskId = '$id'",
+    );
+  }
+
+  Future<List<Task>> getTodoWithId(int todoId) async {
+    final db = await instance.database;
+    List<Map<String, dynamic>> taskMap =
+        await db.rawQuery("SELECT * FROM todo WHERE taskId = $todoId");
+    return List.generate(
+      taskMap.length,
+      (index) {
+        return Task(
+          // id: taskMap[index]['id'],
+          title: taskMap[index]['title'],
+          // taskId: taskMap[index]['taskId'],
+          // isDone: taskMap[index]['isDone'],
         );
       },
     );
@@ -91,7 +127,7 @@ class TodoDatabase {
   Future<void> deleteTodo(int id) async {
     final db = await instance.database;
     await db.rawDelete(
-      "DELETE FROM todo WHERE taskId = '$id'",
+      "DELETE FROM todo WHERE todoId = '$id'",
     );
   }
 

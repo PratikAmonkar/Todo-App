@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 // import 'package:todo_app/database/database_helper.dart';
 
-class TodoCardWidget extends StatelessWidget {
+class UpdateTodoCardWidget extends StatelessWidget {
   final String title;
   final int index;
-  const TodoCardWidget({
+  // final int todoId;
+  const UpdateTodoCardWidget({
     Key? key,
     required this.title,
     required this.index,
+    // required this.todoId,
   }) : super(key: key);
 
   @override
@@ -55,16 +57,17 @@ class TodoCardWidget extends StatelessWidget {
               ),
             ),
           ),
+          GestureDetector(
+            onTap: () async {
+              // print(todoId);
+              // await TodoDatabase.instance.deleteTodo(todoId);
+            },
+            child: const Icon(
+              Icons.delete,
+            ),
+          ),
         ],
       ),
     );
-  }
-}
-
-class NoGlowBehaviour extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
   }
 }

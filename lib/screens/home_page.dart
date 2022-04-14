@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:todo_app/database/database_helper.dart';
 import 'package:todo_app/models/task.dart';
 import 'package:todo_app/screens/task_page.dart';
+import 'package:todo_app/screens/update_todo_page.dart';
 import 'package:todo_app/widgets/task_card_widget.dart';
 import 'package:todo_app/widgets/todo_card_widget.dart';
 
@@ -78,19 +79,19 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
+                              // print(tasks[index].id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const TaskPage(
-                                      ),
+                                  builder: (context) => UpdateTodoPage(
+                                    tasksId: tasks[index].id!.toInt(),
+                                    title:tasks[index].title.toString(),
+                                  ),
                                 ),
-                              ).then(
-                                (value) {
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              );
+                              ).then((value) {
+                                refreshTodos();
+                                setState(() {});
+                              });
                             },
                             child: TaskCardWidget(
                               title: tasks[index].title.toString(),
