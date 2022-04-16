@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 class UpdateTodoCardWidget extends StatelessWidget {
   final String title;
   final int index;
+  final String createdDate;
   // final int todoId;
   const UpdateTodoCardWidget({
     Key? key,
     required this.title,
     required this.index,
-    // required this.todoId,
+    required this.createdDate,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var date = DateTime.parse(createdDate);
+    var formattedDate = "${date.day}/${date.month}/${date.year}";
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 5.0,
@@ -24,48 +27,65 @@ class UpdateTodoCardWidget extends StatelessWidget {
         vertical: 8.0,
       ),
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.0,
-        ),
         borderRadius: BorderRadius.circular(
           10.0,
         ),
+        color: Colors.purple,
       ),
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            width: 20.0,
-            height: 20.0,
-            margin: const EdgeInsets.only(
-              left: 8.0,
-              right: 8.0,
-            ),
-            child: Text(
-              index.toString(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Container(
+                width: 20.0,
+                height: 20.0,
+                margin: const EdgeInsets.only(
+                  left: 8.0,
+                  right: 8.0,
+                ),
+                child: Text(
+                  index.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+              GestureDetector(
+                onTap: () async {
+                  // print(todoId);
+                  // await TodoDatabase.instance.deleteTodo(todoId);
+                },
+                child: const Icon(
+                  Icons.delete_forever,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          GestureDetector(
-            onTap: () async {
-              // print(todoId);
-              // await TodoDatabase.instance.deleteTodo(todoId);
-            },
-            child: const Icon(
-              Icons.delete,
-            ),
+          const SizedBox(
+            height: 10.0,
           ),
+          Row(
+            children: [
+              Text(
+                "Created on:- $formattedDate",
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

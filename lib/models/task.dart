@@ -1,10 +1,10 @@
 class Task {
-  final int? id;
-  final String? title;
+  final int id;
+  final String title;
 
   Task({
-    this.id,
-    this.title,
+    required this.id,
+    required this.title,
   });
 
   // converting task obj to map

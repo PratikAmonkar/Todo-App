@@ -24,11 +24,11 @@ class _TaskPageState extends State<TaskPage> {
   @override
   void initState() {
     super.initState();
-    refreshTodos().whenComplete(
-      () {
-        setState(() {});
-      },
-    );
+    // refreshTodos().whenComplete(
+    //   () {
+    //     setState(() {});
+    //   },
+    // );
   }
 
   Future<void> refreshTodos() async {
@@ -42,9 +42,9 @@ class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         elevation: 0.0,
         leading: GestureDetector(
@@ -70,31 +70,41 @@ class _TaskPageState extends State<TaskPage> {
                 children: [
                   Expanded(
                     child: TextField(
+                      textAlign: TextAlign.center,
                       controller: taskTitle,
                       decoration: const InputDecoration(
                         hintText: "Enter task title",
                         border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),
                       ),
-                      onChanged: (value) {
-                        if (value != "") {
-                          setState(() {
-                            titlePresent = true;
-                          });
-                        } else {
-                          setState(
-                            () {
-                              titlePresent = false;
-                            },
-                          );
-                        }
-                      },
+                      // onChanged: (value) {
+                      //   if (value != "") {
+                      //     setState(() {
+                      //       titlePresent = true;
+                      //     });
+                      //   } else {
+                      //     setState(
+                      //       () {
+                      //         titlePresent = false;
+                      //       },
+                      //     );
+                      //   }
+                      // },
                       onSubmitted: (value) async {
                         if (value != "") {
                           Task _newTask = Task(
+                            id: DateTime.now()
+                                .millisecondsSinceEpoch
+                                .remainder(100000)
+                                .toInt(),
                             title: value,
                           );
                           taskId =
                               await TodoDatabase.instance.insertTask(_newTask);
+                          // print("After getting from database id = ${taskId}");
                           refreshTodos();
                           setState(() {
                             titlePresent = true;
@@ -103,6 +113,8 @@ class _TaskPageState extends State<TaskPage> {
                       },
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize:20.0,
                       ),
                     ),
                   ),
@@ -122,6 +134,7 @@ class _TaskPageState extends State<TaskPage> {
                         return TodoCardWidget(
                           title: todos[index].title.toString(),
                           index: index + 1,
+                          createdDate: todos[index].createdDate,
                         );
                       },
                     ),
@@ -139,19 +152,27 @@ class _TaskPageState extends State<TaskPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: titlePresent == true
+                    child: taskId != 0
                         ? TextField(
                             controller: todoTitle,
                             decoration: const InputDecoration(
                               hintText: "Enter todo here....",
                               border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
                             onSubmitted: (value) async {
                               if (value != "") {
                                 Todo _newTodo = Todo(
+                                  id: DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .remainder(100000)
+                                      .toInt(),
                                   taskId: taskId,
                                   title: value,
                                   isDone: 0,
+                                  createdDate: DateTime.now().toString(),
                                 );
                                 await TodoDatabase.instance.insertTodos(
                                   _newTodo,
@@ -165,9 +186,7 @@ class _TaskPageState extends State<TaskPage> {
                               );
                             },
                           )
-                        : const Text(
-                            "No todos available",
-                          ),
+                        : const Text("",style: TextStyle(color:Colors.white,),),
                   )
                 ],
               ),

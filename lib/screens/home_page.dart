@@ -37,13 +37,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+      // backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 10.0,
-        backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+        backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
           // Status bar color
-          statusBarColor: Color.fromARGB(255, 232, 217, 252),
+          statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
         ),
         elevation: 0.0,
@@ -84,8 +85,8 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => UpdateTodoPage(
-                                    tasksId: tasks[index].id!.toInt(),
-                                    title:tasks[index].title.toString(),
+                                    tasksId: tasks[index].id,
+                                    title: tasks[index].title.toString(),
                                   ),
                                 ),
                               ).then((value) {

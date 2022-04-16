@@ -20,7 +20,7 @@ class TaskCardWidget extends StatelessWidget {
         bottom: 20.0,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.purple,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Column(
@@ -29,7 +29,7 @@ class TaskCardWidget extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              color: Color(0xFF211551),
+              color: Colors.white,
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
             ),

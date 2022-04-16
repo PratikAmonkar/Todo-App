@@ -32,7 +32,7 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
   }
 
   Future<void> refreshTodos() async {
-    await TodoDatabase.instance.getTodoWithId(widget.tasksId).then((value) {
+    await TodoDatabase.instance.getTodos(widget.tasksId).then((value) {
       setState(() {
         todo = value;
       });
@@ -46,9 +46,9 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
     // TextEditingController taskTitle = TextEditingController();
     TextEditingController todoTitle = TextEditingController();
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 232, 217, 252),
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         elevation: 0.0,
         leading: GestureDetector(
@@ -111,7 +111,7 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                             widget.tasksId,
                             value,
                           );
-                          refreshTodos();
+                          // refreshTodos();
                           setState(() {
                             widget.title = value;
                             // titlePresent = true;
@@ -121,7 +121,7 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
 
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22.0,
+                        fontSize: 20.0,
                       ),
                     ),
                   ),
@@ -131,7 +131,7 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
             Expanded(
               child: FutureBuilder(
                 initialData: const [],
-                future: TodoDatabase.instance.getTodoWithId(
+                future: TodoDatabase.instance.getTodos(
                   widget.tasksId,
                 ),
                 builder: (context, snapshot) {
@@ -144,6 +144,7 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                           title: todo[index].title.toString(),
                           // todoId: todo[index].id,
                           index: index + 1,
+                          createdDate: todo[index].createdDate,
                         );
                       },
                     ),
@@ -160,33 +161,33 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: todoTitle,
-                      decoration: const InputDecoration(
-                        hintText: "Enter todo here....",
-                        border: InputBorder.none,
-                      ),
-                      onSubmitted: (value) async {
-                        if (value != "") {
-                          Todo _newTodo = Todo(
-                            taskId: widget.tasksId,
-                            title: value,
-                            isDone: 0,
-                          );
-                          await TodoDatabase.instance.insertTodos(
-                            _newTodo,
-                          );
-                        }
-                        setState(
-                          () {
-                            refreshTodos();
-                            todoTitle.text = "";
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: TextField(
+                  //     controller: todoTitle,
+                  //     decoration: const InputDecoration(
+                  //       hintText: "Enter todo here....",
+                  //       border: InputBorder.none,
+                  //     ),
+                  //     onSubmitted: (value) async {
+                  //       if (value != "") {
+                  //         Todo _newTodo = Todo(
+                  //           taskId: widget.tasksId,
+                  //           title: value,
+                  //           isDone: 0,
+                  //         );
+                  //         await TodoDatabase.instance.insertTodos(
+                  //           _newTodo,
+                  //         );
+                  //       }
+                  //       setState(
+                  //         () {
+                  //           // refreshTodos();
+                  //           todoTitle.text = "";
+                  //         },
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),

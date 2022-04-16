@@ -29,21 +29,25 @@ class TodoDatabase {
 
   Future _createDB(Database db, int version) async {
     await db.execute(
-      "CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, description TEXT)",
+      "CREATE TABLE tasks(id INTEGER  PRIMARY KEY, title TEXT)",
     );
     await db.execute(
-      "CREATE TABLE todo(id INTEGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER)",
+      "CREATE TABLE todo(id INTEGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER, createdDate TEXT)",
     );
   }
 
-  Future<int> insertTask(Task task) async {
+  Future<dynamic> insertTask(Task task) async {
+    // print("From database id = '$id'");
     final db = await instance.database;
     final id = await db.insert(
       'tasks',
       task.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      // conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    return id;
+    return id.toInt();
+    // final taskId = await db
+    //     .rawInsert("INSERT INTO tasks(id,title) VALUES('$id','$title')");
+    // return taskId.toString();
   }
 
   Future<void> updateTaskTitle(int id, String title) async {
@@ -81,24 +85,25 @@ class TodoDatabase {
     );
   }
 
-  Future<List<Task>> getTodoWithId(int todoId) async {
+  Future<List<Todo>> getTodoWithId(int tasksId) async {
     final db = await instance.database;
-    List<Map<String, dynamic>> taskMap =
-        await db.rawQuery("SELECT * FROM todo WHERE taskId = $todoId");
+    List<Map<String, dynamic>> todoMap =
+        await db.rawQuery("SELECT * FROM todo WHERE taskId = $tasksId");
     return List.generate(
-      taskMap.length,
+      todoMap.length,
       (index) {
-        return Task(
-          // id: taskMap[index]['id'],
-          title: taskMap[index]['title'],
-          // taskId: taskMap[index]['taskId'],
-          // isDone: taskMap[index]['isDone'],
+        return Todo(
+          id: todoMap[index]['id'],
+          taskId: todoMap[index]['taskId'],
+          title: todoMap[index]['title'],
+          isDone: todoMap[index]['isDone'],
+          createdDate: todoMap[index]['createdDate'],
         );
       },
     );
   }
 
-  Future<void> insertTodos(Todo todo) async {
+  Future<dynamic> insertTodos(Todo todo) async {
     final db = await instance.database;
     await db.insert(
       'todo',
@@ -109,8 +114,8 @@ class TodoDatabase {
 
   Future<List<Todo>> getTodos(int taskId) async {
     final db = await instance.database;
-    List<Map<String, dynamic>> todoMap =
-        await db.rawQuery("SELECT * FROM todo WHERE taskId = $taskId");
+    List<Map<String, dynamic>> todoMap = await db.rawQuery(
+        "SELECT * FROM todo WHERE taskId = $taskId ORDER BY createdDate");
     return List.generate(
       todoMap.length,
       (index) {
@@ -119,6 +124,7 @@ class TodoDatabase {
           title: todoMap[index]['title'],
           taskId: todoMap[index]['taskId'],
           isDone: todoMap[index]['isDone'],
+          createdDate: todoMap[index]['createdDate'],
         );
       },
     );

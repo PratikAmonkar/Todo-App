@@ -4,14 +4,20 @@ import 'package:flutter/material.dart';
 class TodoCardWidget extends StatelessWidget {
   final String title;
   final int index;
+  final String createdDate;
+  // final int priority
   const TodoCardWidget({
     Key? key,
     required this.title,
     required this.index,
+    required this.createdDate,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+  var date = DateTime.parse(createdDate);
+  var formattedDate = "${date.day}/${date.month}/${date.year}";
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 5.0,
@@ -22,39 +28,62 @@ class TodoCardWidget extends StatelessWidget {
         vertical: 8.0,
       ),
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.0,
-        ),
+        color: Colors.purple,
         borderRadius: BorderRadius.circular(
           10.0,
         ),
       ),
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            width: 20.0,
-            height: 20.0,
-            margin: const EdgeInsets.only(
-              left: 8.0,
-              right: 8.0,
-            ),
-            child: Text(
-              index.toString(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Container(
+                width: 20.0,
+                height: 20.0,
+                margin: const EdgeInsets.only(
+                  left: 8.0,
+                  right: 8.0,
+                ),
+                child: Text(
+                  index.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Created:- $formattedDate",
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              // Text(
+              //   "Priority low",
+              //   style: TextStyle(
+              //     color: Colors.white,
+              //   ),
+              // ),r
+            ],
+          )
         ],
       ),
     );
