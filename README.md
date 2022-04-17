@@ -1,16 +1,33 @@
-# todo_app
+# Todo App
+----------------
+## Created using flutter
+---
+### App Description
+- Create a task and save in your device.
+- You can do CRUD operations like Create,Read,Update and Delete.
+- Ui is minimalist with a theme of white and purple color.
+- If you want to delete todo just swipe in left or right direction
+- Also you can mark as complete task just by tapping it.
 
-A new Flutter project.
+### Version 1.0.0
+- Same as above App Description.
+- using third party library from pub.dev.
+- sqflite:- Offline data SQL database for flutter.
+- path:- To get the app document directory to store data.
 
-## Getting Started
+### Images
 
-This project is a starting point for a Flutter application.
+![ScreenShot](images/data_empty.png)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Credits
+- Flutter sdk
+- Adobe Xd
+- Flaticon
+- Stackoverflow
+- Youtube
+- Medium
+- Dev
+- 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
