@@ -1,7 +1,7 @@
 # Todo App
-----------------
+
 ## Created using flutter
----
+
 ### App Description
 - Create a task and save in your device.
 - You can do CRUD operations like Create,Read,Update and Delete.
@@ -15,10 +15,15 @@
 - sqflite:- Offline data SQL database for flutter.
 - path:- To get the app document directory to store data.
 
-### Images
+### Screenshots
 
-![ScreenShot](images/data_empty.png)
-
+![ScreenShot](mobile_screenshots/image1.jpeg)
+![ScreenShot](mobile_screenshots/image2.jpeg)
+![ScreenShot](mobile_screenshots/image3.jpeg)
+![ScreenShot](mobile_screenshots/image4.jpeg)
+![ScreenShot](mobile_screenshots/image5.jpeg)
+![ScreenShot](mobile_screenshots/image6.jpeg)
+![ScreenShot](mobile_screenshots/image7.jpeg)
 
 ### Credits
 - Flutter sdk
