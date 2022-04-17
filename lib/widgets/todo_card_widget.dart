@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:todo_app/database/database_helper.dart';
 
 class TodoCardWidget extends StatelessWidget {
   final String title;
   final int index;
   final String createdDate;
-  // final int priority
   const TodoCardWidget({
     Key? key,
     required this.title,
@@ -70,14 +68,8 @@ class TodoCardWidget extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              // Text(
-              //   "Priority low",
-              //   style: TextStyle(
-              //     color: Colors.white,
-              //   ),
-              // ),r
             ],
-          )
+          ),
         ],
       ),
     );

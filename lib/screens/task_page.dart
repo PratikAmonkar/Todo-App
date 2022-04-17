@@ -24,11 +24,6 @@ class _TaskPageState extends State<TaskPage> {
   @override
   void initState() {
     super.initState();
-    // refreshTodos().whenComplete(
-    //   () {
-    //     setState(() {});
-    //   },
-    // );
   }
 
   Future<void> refreshTodos() async {
@@ -81,19 +76,6 @@ class _TaskPageState extends State<TaskPage> {
                           fontSize: 20.0,
                         ),
                       ),
-                      // onChanged: (value) {
-                      //   if (value != "") {
-                      //     setState(() {
-                      //       titlePresent = true;
-                      //     });
-                      //   } else {
-                      //     setState(
-                      //       () {
-                      //         titlePresent = false;
-                      //       },
-                      //     );
-                      //   }
-                      // },
                       onSubmitted: (value) async {
                         if (value != "") {
                           Task _newTask = Task(
@@ -105,7 +87,6 @@ class _TaskPageState extends State<TaskPage> {
                           );
                           taskId =
                               await TodoDatabase.instance.insertTask(_newTask);
-                          // print("After getting from database id = ${taskId}");
                           refreshTodos();
                           setState(() {
                             titlePresent = true;
@@ -121,13 +102,6 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ],
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-              child: Text("Completed 5 of 10",style: TextStyle(
-                color:Colors.black,
-                fontWeight: FontWeight.bold,
-              ),),
             ),
             Expanded(
               child: FutureBuilder(

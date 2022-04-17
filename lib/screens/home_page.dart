@@ -37,13 +37,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 232, 217, 252),
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 10.0,
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
-          // Status bar color
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
         ),
@@ -81,7 +79,6 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    // print(tasks[index].id);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -102,7 +99,9 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           )
-                        : Image.asset('images/data_empty.png');
+                        : Image.asset(
+                            'images/data_empty.png',
+                          );
                   },
                 ),
               ),

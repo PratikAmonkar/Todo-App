@@ -7,7 +7,6 @@ class Task {
     required this.title,
   });
 
-  // converting task obj to map
   Map<String, dynamic> toMap() {
     return {
       'id': id,

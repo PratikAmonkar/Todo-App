@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Future<void> showMyDialog(context) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // user must tap button!
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Warning!!'),
@@ -25,9 +25,8 @@ Future<void> showMyDialog(context) async {
           ),
           TextButton(
             child: const Text('Yes'),
-            onPressed: () async  {
+            onPressed: () async {
               Navigator.of(context).pop();
-                // await
             },
           ),
         ],

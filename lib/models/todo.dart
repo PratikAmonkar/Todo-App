@@ -15,7 +15,6 @@ class Todo {
 
   });
 
-  // converting todo obj to map
   Map<String, dynamic> toMap() {
     return {
       'id': id,

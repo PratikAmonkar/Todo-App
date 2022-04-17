@@ -19,10 +19,14 @@ class UpdateTodoPage extends StatefulWidget {
 
 class _UpdateTodoPageState extends State<UpdateTodoPage> {
   var todo = [];
+  var isCompleted = [];
+
+   int todoCompleted = 0;
+   int taskCounts = 0;
+
   final bool isDataEmpty = false;
   bool todoDelete = false;
   bool isDataNotEmpty = false;
-  // bool titlePresent = true;
 
   @override
   void initState() {
@@ -36,15 +40,21 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
     await TodoDatabase.instance.getTodos(widget.tasksId).then((value) {
       setState(() {
         todo = value;
+        taskCounts = todo.length;
       });
     });
-    // print(tasks[0].title);
+    await TodoDatabase.instance
+        .getCompletedTodos(widget.tasksId, 1)
+        .then((value) {
+      setState(() {
+        isCompleted = value;
+        todoCompleted = isCompleted.length;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(todo[0].id);
-    // TextEditingController taskTitle = TextEditingController();
     TextEditingController todoTitle = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,42 +94,17 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                         // hintText: "Enter task title",
                         border: InputBorder.none,
                       ),
-                      // onChanged: (value) {
-                      //   setState(() {
-                      //     widget.title = value;
-                      //   });
-
-                      // TextEditingController.fromValue(value);
-                      // if (value != "") {
-                      //   setState(() {
-                      //      titlePresent = true;
-                      //   });
-                      // } else {
-                      //   setState(
-                      //     () {
-                      //       titlePresent = false;
-                      //     },
-                      //   );
-                      // }
-                      // },
                       onSubmitted: (value) async {
                         if (value != "") {
-                          // Task _updatedTask = Task(
-                          //   title: value,
-                          // );
-
                           await TodoDatabase.instance.updateTaskTitle(
                             widget.tasksId,
                             value,
                           );
-                          // refreshTodos();
                           setState(() {
                             widget.title = value;
-                            // titlePresent = true;
                           });
                         }
                       },
-
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
@@ -127,6 +112,16 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+              child: Text(
+                "Completed $todoCompleted of $taskCounts",
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Expanded(
@@ -143,17 +138,13 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                       itemBuilder: (context, index) {
                         return Dismissible(
                           key: Key(todo[index].id.toString()),
-                          // Provide a function that tells the app
-                          // what to do after an item has been swiped away.
+
                           onDismissed: (direction) async {
-                            // Remove the item from the data source.
                             await TodoDatabase.instance
                                 .deleteTodo(todo[index].id);
                             setState(() {
                               refreshTodos();
                             });
-
-                            // Then show a snackbar.
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
@@ -162,15 +153,27 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
                               ),
                             );
                           },
-                          // Show a red background as the item is swiped away.
                           background: Container(
                             color: Colors.red,
                           ),
-                          child: UpdateTodoCardWidget(
-                            title: todo[index].title.toString(),
-                            // todoId: todo[index].id,
-                            index: index + 1,
-                            createdDate: todo[index].createdDate,
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (todo[index].isDone == 1) {
+                                await TodoDatabase.instance
+                                    .updateTodoDone(todo[index].id, 0);
+                                refreshTodos();
+                              } else {
+                                await TodoDatabase.instance
+                                    .updateTodoDone(todo[index].id, 1);
+                                refreshTodos();
+                              }
+                            },
+                            child: UpdateTodoCardWidget(
+                              title: todo[index].title.toString(),
+                              index: index + 1,
+                              createdDate: todo[index].createdDate,
+                              isDone: todo[index].isDone,
+                            ),
                           ),
                         );
                       },
@@ -233,23 +236,6 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
             widget.tasksId,
           );
           Navigator.of(context).pop();
-          // refreshTodos();
-          // showMyDialog(context, widget.tasksId).whenComplete(
-          //   () {
-          //     refreshTodos();
-          //     print(todo.isEmpty);
-          //     // todo.isNotEmpty ? null : Navigator.of(context).pop();
-          //     todo.isEmpty ? Navigator.of(context).pop() : null;
-          //   },
-          // );
-          // refreshTodos();
-          // if (todo.isEmpty) {
-          //   Navigator.of(context).pop();
-          // }
-
-          // if (todoDelete) {
-          //   Navigator.of(context).pop();
-          // }
         },
         child: const Icon(
           Icons.delete_forever,
@@ -263,50 +249,3 @@ class _UpdateTodoPageState extends State<UpdateTodoPage> {
 const snackBar = SnackBar(
   content: Text('Tasks deleted successfully'),
 );
-
-// Future<void> showMyDialog(context, tasksId) async {
-//   return showDialog<void>(
-//     context: context,
-//     barrierDismissible: false, // user must tap button!
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: const Text('Warning!!'),
-//         content: SingleChildScrollView(
-//           child: ListBody(
-//             children: const <Widget>[
-//               Text(
-//                 'Are you sure you want to delete task?.',
-//               ),
-//             ],
-//           ),
-//         ),
-//         actions: <Widget>[
-//           TextButton(
-//             child: const Text('Cancel'),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//           TextButton(
-//             child: const Text('Yes'),
-//             onPressed: () async {
-//               await TodoDatabase.instance.deleteTask(
-//                 tasksId,
-//               );
-//               // todoDelete =
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
-
-// class NoGlowBehaviour extends ScrollBehavior {
-//   @override
-//   Widget buildViewportChrome(
-//       BuildContext context, Widget child, AxisDirection axisDirection) {
-//     return child;
-//   }
-// }
