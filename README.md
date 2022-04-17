@@ -17,7 +17,7 @@
 
 ### Screenshots
 
-![ScreenShot](mobile_screenshots/image1.jpeg)
+![ScreenShot](mobile_screenshots/image1.jpeg height=500)
 ![ScreenShot](mobile_screenshots/image2.jpeg)
 ![ScreenShot](mobile_screenshots/image3.jpeg)
 ![ScreenShot](mobile_screenshots/image4.jpeg)
