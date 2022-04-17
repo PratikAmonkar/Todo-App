@@ -36,13 +36,8 @@ class UpdateTodoCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 20.0,
-                height: 20.0,
-                margin: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
+              Padding(
+                padding: const EdgeInsets.only(right:10.0),
                 child: Text(
                   index.toString(),
                   style: const TextStyle(
@@ -61,16 +56,6 @@ class UpdateTodoCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () async {
-                  // print(todoId);
-                  // await TodoDatabase.instance.deleteTodo(todoId);
-                },
-                child: const Icon(
-                  Icons.delete_forever,
-                  color: Colors.white,
-                ),
-              ),
             ],
           ),
           const SizedBox(
@@ -78,10 +63,13 @@ class UpdateTodoCardWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                "Created on:- $formattedDate",
-                style: const TextStyle(
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.only(left:10.0),
+                child: Text(
+                  "Created on:- $formattedDate",
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               )
             ],

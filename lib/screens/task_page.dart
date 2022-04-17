@@ -72,6 +72,7 @@ class _TaskPageState extends State<TaskPage> {
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: taskTitle,
+                      enabled: titlePresent ? false : true,
                       decoration: const InputDecoration(
                         hintText: "Enter task title",
                         border: InputBorder.none,
@@ -114,12 +115,19 @@ class _TaskPageState extends State<TaskPage> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontSize:20.0,
+                        fontSize: 20.0,
                       ),
                     ),
                   ),
                 ],
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+              child: Text("Completed 5 of 10",style: TextStyle(
+                color:Colors.black,
+                fontWeight: FontWeight.bold,
+              ),),
             ),
             Expanded(
               child: FutureBuilder(
@@ -186,7 +194,12 @@ class _TaskPageState extends State<TaskPage> {
                               );
                             },
                           )
-                        : const Text("",style: TextStyle(color:Colors.white,),),
+                        : const Text(
+                            "",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                   )
                 ],
               ),

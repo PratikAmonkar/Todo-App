@@ -133,7 +133,7 @@ class TodoDatabase {
   Future<void> deleteTodo(int id) async {
     final db = await instance.database;
     await db.rawDelete(
-      "DELETE FROM todo WHERE todoId = '$id'",
+      "DELETE FROM todo WHERE id = '$id'",
     );
   }
 

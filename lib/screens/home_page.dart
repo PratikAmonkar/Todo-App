@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Task> tasks = [];
-  final bool isDataEmpty = false;
+  String isPresent = "0";
 
   @override
   void initState() {
@@ -73,34 +73,36 @@ class _HomePageState extends State<HomePage> {
                   initialData: const [],
                   future: TodoDatabase.instance.getTasks(),
                   builder: (context, snapshot) {
-                    return ScrollConfiguration(
-                      behavior: NoGlowBehaviour(),
-                      child: ListView.builder(
-                        itemCount: tasks.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // print(tasks[index].id);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UpdateTodoPage(
-                                    tasksId: tasks[index].id,
+                    return tasks.isNotEmpty
+                        ? ScrollConfiguration(
+                            behavior: NoGlowBehaviour(),
+                            child: ListView.builder(
+                              itemCount: tasks.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    // print(tasks[index].id);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UpdateTodoPage(
+                                          tasksId: tasks[index].id,
+                                          title: tasks[index].title.toString(),
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      refreshTodos();
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: TaskCardWidget(
                                     title: tasks[index].title.toString(),
                                   ),
-                                ),
-                              ).then((value) {
-                                refreshTodos();
-                                setState(() {});
-                              });
-                            },
-                            child: TaskCardWidget(
-                              title: tasks[index].title.toString(),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    );
+                          )
+                        : Image.asset('images/data_empty.png');
                   },
                 ),
               ),

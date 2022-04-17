@@ -13,11 +13,10 @@ class TodoCardWidget extends StatelessWidget {
     required this.createdDate,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-  var date = DateTime.parse(createdDate);
-  var formattedDate = "${date.day}/${date.month}/${date.year}";
+    var date = DateTime.parse(createdDate);
+    var formattedDate = "${date.day}/${date.month}/${date.year}";
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 5.0,
@@ -37,13 +36,8 @@ class TodoCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 20.0,
-                height: 20.0,
-                margin: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
                 child: Text(
                   index.toString(),
                   style: const TextStyle(
